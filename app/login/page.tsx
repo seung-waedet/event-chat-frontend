@@ -1,66 +1,45 @@
-"use client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
 
-const LoginWithCode: React.FC = () => {
-  const [isAnon, setIsAnon] = useState(false);
-
-  const handleAnonChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setIsAnon(event.target.checked);
-  };
-
+const Login: React.FC = () => {
   return (
     <main className="bg-[#26313c] h-screen flex items-center justify-center p-10">
       <div className="grid w-full h-full grid-cols-1 bg-white box-anim md:grid-cols-2">
         <div className="bg-[#16202a] text-white flex items-center justify-center flex-col">
           <div className="my-4">
             <h1 className="text-3xl font-semibold text-center">Event Chat</h1>
-            <p className="mt-2 text-xl text-slate-400 text-center">
-              Enter your code to access event
-            </p>
+            <p className="mt-2 text-xl text-slate-400 text-center">Login</p>
           </div>
           <form>
-            <Label htmlFor="name">Name</Label>
+            <Label htmlFor="email">Email</Label>
             <Input
               className="mt-2 mb-4 bg-transparent rounded-full"
-              type="text"
-              id="name"
-              placeholder="Enter your name"
+              type="email"
+              id="email"
+              placeholder="Email"
             />
-            <Label htmlFor="code">Code</Label>
+            <Label htmlFor="password">Password</Label>
             <Input
-              className="mt-2 mb-4 bg-transparent rounded-full"
-              type="text"
-              id="code"
-              placeholder="Enter your code"
+              className="mt-2 bg-transparent rounded-full"
+              type="password"
+              id="password"
+              placeholder="password"
             />
-
-            <div className="flex items-center mt-4">
-              <input
-                type="checkbox"
-                id="isAnon"
-                checked={isAnon}
-                onChange={handleAnonChange}
-                className="mr-2"
-              />
-              <Label htmlFor="isAnon">Join as Anonymous</Label>
-            </div>
 
             <Button
               type="submit"
               className="w-full mt-6 bg-indigo-600 rounded-full hover:bg-indigo-700"
             >
-              Submit Code
+              Login
             </Button>
           </form>
 
-          <Link href="/login">
+          <Link href="/">
             <p className="mt-4 text-xs text-indigo-400 hover:text-indigo-500">
-              Login with Email and Password
+              Login with Code
             </p>
           </Link>
 
@@ -68,6 +47,7 @@ const LoginWithCode: React.FC = () => {
             @2024 All rights reserved
           </p>
         </div>
+
         <div className="relative hidden md:block">
           <Image
             className="object-cover"
@@ -83,4 +63,4 @@ const LoginWithCode: React.FC = () => {
   );
 };
 
-export default LoginWithCode;
+export default Login;
