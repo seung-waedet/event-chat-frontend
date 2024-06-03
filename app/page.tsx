@@ -18,7 +18,14 @@ const LoginWithCode: React.FC = () => {
       <div className="grid w-full h-full grid-cols-1 bg-white box-anim md:grid-cols-2">
         <div className="bg-[#16202a] text-white flex items-center justify-center flex-col">
           <div className="my-4">
-            <h1 className="text-3xl font-semibold text-center">Event Chat</h1>
+            <div className="flex items-center justify-center w-full">
+              <Image
+                src="/event-chat-logo.png"
+                alt="Event Chat Logo"
+                width={150}
+                height={50}
+              />
+            </div>
             <p className="mt-2 text-xl text-slate-400 text-center">
               Enter your code to access event
             </p>
