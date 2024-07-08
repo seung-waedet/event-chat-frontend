@@ -14,14 +14,14 @@ const Sidebar: React.FC = () => {
       </div>
 
       <nav className="flex flex-col p-4">
+        <Link href="/admin/reports">
+          <p className="text-lg hover:bg-gray-700 p-2 rounded">Reports</p>
+        </Link>
         <Link href="/admin/users">
           <p className="mb-4 text-lg hover:bg-gray-700 p-2 rounded">Users</p>
         </Link>
         <Link href="/admin/events">
           <p className="mb-4 text-lg hover:bg-gray-700 p-2 rounded">Events</p>
-        </Link>
-        <Link href="/admin/reports">
-          <p className="text-lg hover:bg-gray-700 p-2 rounded">Reports</p>
         </Link>
       </nav>
     </div>

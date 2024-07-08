@@ -5,12 +5,34 @@ import { Label } from "@/components/ui/label";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
+import axios from "axios";
 
 const LoginWithCode: React.FC = () => {
+  const [name, setName] = useState("");
+  const [code, setCode] = useState("");
   const [isAnon, setIsAnon] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const router = useRouter();
 
   const handleAnonChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setIsAnon(event.target.checked);
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post("http/api/join-event-unregistered", {
+        code,
+        displayName: name,
+        isAnon,
+      });
+
+      const event = response.data.event;
+      router.push(`/events/${event._id}`);
+    } catch (err) {
+      setError("Invalid code or name. Please try again.");
+    }
   };
 
   return (
@@ -30,13 +52,16 @@ const LoginWithCode: React.FC = () => {
               Enter your code to access event
             </p>
           </div>
-          <form>
+          <form onSubmit={handleSubmit}>
+            {error && <p className="error text-red-500">{error}</p>}
             <Label htmlFor="name">Name</Label>
             <Input
               className="mt-2 mb-4 bg-transparent rounded-full"
               type="text"
               id="name"
               placeholder="Enter your name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
             />
             <Label htmlFor="code">Code</Label>
             <Input
@@ -44,6 +69,8 @@ const LoginWithCode: React.FC = () => {
               type="text"
               id="code"
               placeholder="Enter your code"
+              value={code}
+              onChange={(e) => setCode(e.target.value)}
             />
 
             <div className="flex items-center mt-4">
@@ -61,7 +88,7 @@ const LoginWithCode: React.FC = () => {
               type="submit"
               className="w-full mt-6 bg-indigo-600 rounded-full hover:bg-indigo-700"
             >
-              Submit Code
+              Join Event
             </Button>
           </form>
 
@@ -80,8 +107,6 @@ const LoginWithCode: React.FC = () => {
             className="object-cover"
             src="/bg.jpg"
             alt="bg-image"
-            // width={800}
-            // height={408}
             fill={true}
           />
         </div>

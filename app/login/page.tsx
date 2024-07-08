@@ -1,10 +1,42 @@
+"use client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Image from "next/image";
 import Link from "next/link";
 
-const Login: React.FC = () => {
+import React, { useState } from "react";
+
+import { useRouter } from "next/navigation";
+import { useAxios } from "@/lib/api";
+
+const Login = () => {
+  const apiInstance = useAxios();
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const router = useRouter();
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      const response = await apiInstance.post("/api/login", {
+        email,
+        password,
+      });
+
+      // Store JWT in local storage (or cookies)
+      localStorage.setItem("token", response.data.token);
+      document.cookie = `token=${response.data.token}`;
+
+      // Redirect to a protected route
+      router.push("/admin");
+    } catch (err) {
+      setError("Invalid email or password");
+    }
+  };
+
   return (
     <main className="bg-[#26313c] h-screen flex items-center justify-center p-10">
       <div className="grid w-full h-full grid-cols-1 bg-white box-anim md:grid-cols-2">
@@ -20,20 +52,27 @@ const Login: React.FC = () => {
             </div>
             <p className="mt-2 text-xl text-slate-400 text-center">Login</p>
           </div>
-          <form>
+
+          <form onSubmit={handleSubmit}>
+            {error && <p className="error">{error}</p>}
             <Label htmlFor="email">Email</Label>
             <Input
               className="mt-2 mb-4 bg-transparent rounded-full"
               type="email"
               id="email"
               placeholder="Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
             />
+
             <Label htmlFor="password">Password</Label>
             <Input
               className="mt-2 bg-transparent rounded-full"
               type="password"
               id="password"
               placeholder="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
             />
 
             <Button
